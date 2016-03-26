@@ -56,7 +56,15 @@ public class Kaart {
 
 	// streept een getal weg, returnt true bij succes
 	boolean streepWeg(int getal) {
-		return true;
+		for (int[] row : this.getallenKaart) {
+			for(int i = 0; i < row.length; i++) {
+				if (row[i] == getal) {
+					row[i] = 0;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	// checkt voor lingo

@@ -1,11 +1,10 @@
 package com.YCP.lingo;
 
 import java.util.ArrayList;
+import java.util.function.IntSupplier;
 
 import com.YCP.lingo.Exception.StaatNietOpDeKaart;
 import com.YCP.lingo.Exception.TeamMakenException;
-import com.YCP.lingoMain.ConsolePrinter;
-import com.YCP.lingoMain.InputOutput;
 
 
 public class Team {
@@ -32,9 +31,9 @@ public class Team {
 	// Static methods om teams te starten, van team te wisselen, het actieve team te returnen
 	public static void startTeams(String naam1, String naam2) {
 		if (!teamsGemaakt) {
-			Team.team1 = new Team(naam1);
+			Team.team1 = new Team(naam1.replace('-', ' '));
 			team1.even = true;
-			Team.team2 = new Team(naam2);
+			Team.team2 = new Team(naam2.replace('-', ' '));
 			team2.even = false;
 			Team.actieveTeam = Team.team1;
 			teamsGemaakt = true;
@@ -62,7 +61,11 @@ public class Team {
 		return tempList;
 	}
 	
-
+	public static String getScores() {
+		String s = ("\n" + team1.getNaam() + "        " + team1.score + "\n" +
+				    	   team2.getNaam() + "        " + team2.score);
+		return s;
+	}
 	
 	public static boolean setHoogsteTeam() {
 		if (Team.team1.score > Team.team2.score) {
@@ -113,19 +116,15 @@ public class Team {
 	
 	
 	// Methode om een bal te laten trekken en terug te laten leggen
-	public int trekBal() {
+	public int trekBal(IntSupplier I) {
 		int x = this.teamBak.trekBal();
 		if(x == BallenBak.VRAAGTEKEN) {
-			ConsolePrinter.print("Jullie hebben het vraagteken,\nwelk getal wil je wegstrepen?", 0);
-			try {
-				x = Integer.valueOf(InputOutput.userInput());
-			} catch (NumberFormatException NFE) {
-				ConsolePrinter.print("Jullie zijn een stelletje prutsers,\ner is niks weggestreept.", 0);	
-			}
+			System.out.println("test");
+			x = I.getAsInt();
 		}
 		if (x > 0) {
 			if (!this.teamKaart.streepWeg(x)) {
-				throw new StaatNietOpDeKaart("Staat niet op de kaart!");
+				throw new StaatNietOpDeKaart("Het is bal " + x + "\nStaat niet op de kaart!");
 			}
 		} 
 		return x;
@@ -153,6 +152,7 @@ public class Team {
 	public String getKaart() {
 		return this.teamKaart.toString();
 	}
-
+	
+	
 	
 }

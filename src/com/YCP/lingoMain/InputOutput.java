@@ -33,7 +33,8 @@ public class InputOutput {
 	}
 
 	public static String userInput() {
-		return inputScanner.next();
+		String x = inputScanner.nextLine();
+		return x.replace(' ', '-');
 	}
 
 	public static String[] highscore() {
@@ -47,7 +48,7 @@ public class InputOutput {
 		return returnString.split("-");
 	}
 
-	public static void schrijfHighscore(String highscore) {
+	public static void schrijfHighscore() {
 		try {
 			PrintWriter writer = new PrintWriter("LingoScores.txt", "UTF-8");
 			writer.println(Team.getActief().getNaam().replace('-', '_') + "-" + Team.getActief().getScore());

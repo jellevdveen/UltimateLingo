@@ -26,7 +26,7 @@ public class RaadWoorden {
 	public boolean speelRonde() {
 		for (int gok = 0; gok < RaadWoorden.AANTAL_KEER_RADEN; gok++) {
 			switch (raadWoord()) {
-			case RaadWoorden.GOED		:	ConsolePrinter.print("Woord goed geraden!", Main.STANDARD_WAIT/2);
+			case RaadWoorden.GOED		:	ConsolePrinter.print("En dat is goed!", Main.STANDARD_WAIT/2);
 											return true;
 			case RaadWoorden.VERKEERD	:	continue;
 			case RaadWoorden.ONGELDIG	:	if (gok < AANTAL_KEER_RADEN - 1) {
@@ -44,6 +44,7 @@ public class RaadWoorden {
 		Team.wissel();
 		
 		if (raadWoord() == GOED) {
+			ConsolePrinter.print("En dat is goed!", Main.STANDARD_WAIT/2);
 			return true;
 		} else {
 			return false;

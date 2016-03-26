@@ -19,13 +19,20 @@ public class BallenBak {
 		for (int i = 1; i < 36; i++)
 			if (even) {
 				this.ballenInBak.add(2*i);
+			} else {
+				this.ballenInBak.add((2*i)-1);
 			}
 		this.ballenInBak.add(GOUD);
 		Collections.shuffle(ballenInBak);
 	}
 	// Constructor voor gewone ronde
 	BallenBak(Kaart kaart, int aantalGroene) {
-		this.ballenInBak.addAll(kaart.getGetallen());
+		this.ballenInBak = new ArrayList<Integer>(24);
+		for (int i : kaart.getGetallen()) {
+			if (i!= 0) {
+				this.ballenInBak.add(i);
+			}
+		}
 		this.ballenInBak.add(VRAAGTEKEN);
 		for (int i = 0; i < 3; i++) {
 			this.ballenInBak.add(ROOD);
@@ -33,7 +40,7 @@ public class BallenBak {
 				this.ballenInBak.add(GROEN);
 			}
 		}
-		Collections.shuffle(ballenInBak);
+		Collections.shuffle(ballenInBak);		
 	}
 	
 	// Methode om 1 bal uit de bak te trekken
