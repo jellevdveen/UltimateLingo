@@ -1,5 +1,8 @@
 package com.YCP.lingo;
 
+import java.util.ArrayList;
+
+import com.YCP.lingo.Exception.StaatNietOpDeKaart;
 import com.YCP.lingo.Exception.TeamMakenException;
 
 
@@ -16,6 +19,7 @@ public class Team {
 	private BallenBak teamBak;
 	private int score;
 	private int groeneBallen;
+	private boolean even;
 	
 	// private constructor, hoeft maar 2 keer aangeroepen te worden, door functie startTeams
 	private Team(String naam) {
@@ -27,7 +31,9 @@ public class Team {
 	public static void startTeams(String naam1, String naam2) {
 		if (!teamsGemaakt) {
 			Team.team1 = new Team(naam1);
+			team1.even = true;
 			Team.team2 = new Team(naam2);
+			team2.even = false;
 			Team.actieveTeam = Team.team1;
 			teamsGemaakt = true;
 		} else {
@@ -36,7 +42,7 @@ public class Team {
 	}
 	
 	public static void wissel(){
-		if(Team.actieveTeam == Team.team1) {
+		if (Team.actieveTeam == Team.team1) {
 			Team.actieveTeam = Team.team2;
 		} else {
 			Team.actieveTeam = Team.team1;
@@ -45,6 +51,27 @@ public class Team {
 	
 	public static Team getActief(){
 		return Team.actieveTeam;
+	}
+	
+	public static ArrayList<Team> getTeams() {
+		ArrayList<Team> tempList = new ArrayList<Team>(2);
+		tempList.add(Team.team1);
+		tempList.add(Team.team2);
+		return tempList;
+	}
+	
+
+	
+	public static boolean setHoogsteTeam() {
+		if (Team.team1.score > Team.team2.score) {
+			Team.actieveTeam = Team.team1;
+			return false;
+		} else if (Team.team2.score > Team.team1.score) {
+			Team.actieveTeam = Team.team2;
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	
@@ -66,8 +93,8 @@ public class Team {
 	
 	
 	// makers voor Kaart en Ballenbak
-	public void maakKaart(boolean even) {
-		this.teamKaart = new Kaart(even);
+	public void maakKaart() {
+		this.teamKaart = new Kaart(this.even);
 	}
 	
 	public void beginKaart(boolean finale) {
@@ -84,7 +111,7 @@ public class Team {
 		int x = this.teamBak.trekBal();
 		if (x > 0) {
 			if (!this.teamKaart.streepWeg(x)) {
-				return Kaart.NIET_WEGGESTREEPT;
+				throw new StaatNietOpDeKaart("Staat niet op de kaart!");
 			}
 		}
 		return x;
@@ -96,12 +123,22 @@ public class Team {
 	
 	
 	// Method om lingo te checken
-	
+	public boolean checkLingo() {
+		return this.teamKaart.checkLingo();
+	}
 	
 	// getters
 	public String getNaam() {
 		return this.naam;
 	}
 	
+	public int getScore(){
+		return this.score;
+	}
+
+	public String getKaart() {
+		return this.teamKaart.toString();
+	}
+
 	
 }
