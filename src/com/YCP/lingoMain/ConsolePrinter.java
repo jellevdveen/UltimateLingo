@@ -1,5 +1,6 @@
 // De enige class die op de console printen is deze
 // slechts RaadWoorden en Main roepen deze class aan
+// muv Team voor als het vraagteken wordt gepakt
 
 
 

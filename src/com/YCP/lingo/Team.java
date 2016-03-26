@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.YCP.lingo.Exception.StaatNietOpDeKaart;
 import com.YCP.lingo.Exception.TeamMakenException;
+import com.YCP.lingoMain.ConsolePrinter;
+import com.YCP.lingoMain.InputOutput;
 
 
 public class Team {
@@ -109,11 +111,19 @@ public class Team {
 	// Methode om een bal te laten trekken en terug te laten leggen
 	public int trekBal() {
 		int x = this.teamBak.trekBal();
+		if(x == BallenBak.VRAAGTEKEN) {
+			ConsolePrinter.print("Jullie hebben het vraagteken,\nwelk getal wil je wegstrepen?", 0);
+			try {
+				x = Integer.valueOf(InputOutput.userInput());
+			} catch (NumberFormatException NFE) {
+				ConsolePrinter.print("Jullie zijn een stelletje prutsers,\ner is niks weggestreept.", 0);	
+			}
+		}
 		if (x > 0) {
 			if (!this.teamKaart.streepWeg(x)) {
 				throw new StaatNietOpDeKaart("Staat niet op de kaart!");
 			}
-		}
+		} 
 		return x;
 	}
 	
