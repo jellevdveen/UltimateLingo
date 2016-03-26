@@ -28,7 +28,7 @@ public class Main {
 		for (Team t : Team.getTeams()) {
 			t.maakKaart();
 			t.beginKaart(false);
-			t.maakBallenBak();
+			t.maakBallenBak(false);
 		}
 		
 		
@@ -45,7 +45,7 @@ public class Main {
 		}
 		
 		Team.getActief().maakKaart();
-		Team.getActief().maakBallenBak();
+		Team.getActief().maakBallenBak(true);
 		Team.getActief().beginKaart(true);
 		
 		// finale
@@ -77,7 +77,7 @@ public class Main {
 										Team.getActief().verhoogScore(100);
 										Team.getActief().maakKaart();
 										Team.getActief().beginKaart(false);
-										Team.getActief().maakBallenBak();
+										Team.getActief().maakBallenBak(false);
 										if (!finale) {
 											Team.wissel();
 										}	

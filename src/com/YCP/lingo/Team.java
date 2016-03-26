@@ -103,8 +103,12 @@ public class Team {
 		this.teamKaart.streepBeginWeg(finale);
 	}
 	
-	public void maakBallenBak() {
-		this.teamBak = new BallenBak(this.teamKaart, (3 - this.groeneBallen));
+	public void maakBallenBak(boolean finale) {
+		if (finale) {
+			this.teamBak = new BallenBak(this.even);
+		} else {
+			this.teamBak = new BallenBak(this.teamKaart, (3 - this.groeneBallen));
+		}
 	}
 	
 	
