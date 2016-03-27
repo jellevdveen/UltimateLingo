@@ -63,7 +63,7 @@ public class Team {
 	
 	public static String getScores() {
 		String s = ("\n" + team1.getNaam() + "        " + team1.score + "\n" +
-				    	   team2.getNaam() + "        " + team2.score);
+				    	   team2.getNaam() + "        " + team2.score + "\n");
 		return s;
 	}
 	
@@ -116,10 +116,10 @@ public class Team {
 	
 	
 	// Methode om een bal te laten trekken en terug te laten leggen
+	// Vraagt een lambda-expression om het ? te handlen.
 	public int trekBal(IntSupplier I) {
 		int x = this.teamBak.trekBal();
 		if(x == BallenBak.VRAAGTEKEN) {
-			System.out.println("test");
 			x = I.getAsInt();
 		}
 		if (x > 0) {
@@ -152,7 +152,5 @@ public class Team {
 	public String getKaart() {
 		return this.teamKaart.toString();
 	}
-	
-	
-	
+
 }

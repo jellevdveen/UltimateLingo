@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Kaart {
-	public static final int NIET_WEGGESTREEPT = -5;
-	int[][] getallenKaart;
+	private int[][] getallenKaart;
 	
 	// maakt nieuwe kaart
 	Kaart(boolean even) {
@@ -85,6 +84,7 @@ public class Kaart {
 	public String toString() {
 		StringBuilder tempString = new StringBuilder("");
 		for (int i = 0; i < 5; i++) {
+			tempString.append("                                              ");
 			for (int j = 0; j < 5; j++) {
 				if (getallenKaart[i][j] == 0) {
 					tempString.append("XX ");
