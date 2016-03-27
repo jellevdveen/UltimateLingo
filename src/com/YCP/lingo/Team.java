@@ -1,6 +1,5 @@
 package com.YCP.lingo;
 
-import java.util.ArrayList;
 import java.util.function.IntSupplier;
 
 import com.YCP.lingo.Exception.StaatNietOpDeKaart;
@@ -42,29 +41,44 @@ public class Team {
 		}
 	}
 	
-	public static void wissel(){
+	public static Team wissel(){
 		if (Team.actieveTeam == Team.team1) {
 			Team.actieveTeam = Team.team2;
 		} else {
 			Team.actieveTeam = Team.team1;
 		}
+		return actieveTeam;
 	}
 	
 	public static Team getActief(){
 		return Team.actieveTeam;
 	}
 	
-	public static ArrayList<Team> getTeams() {
-		ArrayList<Team> tempList = new ArrayList<Team>(2);
-		tempList.add(Team.team1);
-		tempList.add(Team.team2);
-		return tempList;
+	public static String[] maakKaarten() {
+		String[] returnList = new String[6];
+		returnList[0] = team1.naam;
+		returnList[1] = team1.maakKaart().toString();
+		returnList[2] = team1.beginKaart(false).toString();
+		returnList[3] = team2.naam;
+		returnList[4] = team2.maakKaart().toString();
+		returnList[5] = team2.beginKaart(false).toString();
+		team1.maakBallenBak(false);
+		team2.maakBallenBak(false);
+		return returnList;
 	}
 	
 	public static String getScores() {
-		String s = ("\n" + team1.getNaam() + "        " + team1.score + "\n" +
-				    	   team2.getNaam() + "        " + team2.score + "\n");
-		return s;
+		String s = (team1.getNaam());
+		int lengte = ((Math.max(team1.getNaam().length(), team2.getNaam().length())) + 3);
+		while (s.length() < lengte) {
+			s = s.concat(" ");
+		}
+		s = s.concat(team1.score + "\n" + team2.getNaam());
+		for (int i = 0; i < lengte - team2.getNaam().length(); i++) {
+			s = s.concat(" ");
+		}
+		s = s.concat(team2.score + "\n");
+		return ("\n" + s);
 	}
 	
 	public static boolean setHoogsteTeam() {
@@ -98,12 +112,14 @@ public class Team {
 	
 	
 	// makers voor Kaart en Ballenbak
-	public void maakKaart() {
+	public Kaart maakKaart() {
 		this.teamKaart = new Kaart(this.even);
+		return this.teamKaart;
 	}
 	
-	public void beginKaart(boolean finale) {
+	public Kaart beginKaart(boolean finale) {
 		this.teamKaart.streepBeginWeg(finale);
+		return this.teamKaart;
 	}
 	
 	public void maakBallenBak(boolean finale) {

@@ -30,8 +30,7 @@ public class RaadWoorden {
 											return true;
 			case RaadWoorden.VERKEERD	:	continue;
 			case RaadWoorden.ONGELDIG	:	if (gok < AANTAL_KEER_RADEN - 1) {
-												ConsolePrinter.print("Het andere team is aan de beurt", 0);
-												Team.wissel();
+												ConsolePrinter.print("Team " + Team.wissel().getNaam() + " is aan de beurt", 0);
 												if (bonusLetter()){
 													ConsolePrinter.print("en krijgt een bonusletter!", 0);
 												}
@@ -40,9 +39,8 @@ public class RaadWoorden {
 											continue;
 			}
 		}
-		ConsolePrinter.print("Het andere team is aan de beurt", 0);
-		Team.wissel();
-		
+		ConsolePrinter.print("Team " + Team.wissel().getNaam() + " is aan de beurt", 0);
+				
 		if (raadWoord() == GOED) {
 			ConsolePrinter.print("En dat is goed!", Main.STANDARD_WAIT/2);
 			return true;

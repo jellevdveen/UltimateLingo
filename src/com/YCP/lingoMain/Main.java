@@ -24,6 +24,7 @@ public class Main {
 		
 	}
 	
+	//functies om ballen te pakken
 	public static int pakBal() {
 		try {
 			int x = Team.getActief().trekBal(() -> { return vraagteken(); });
@@ -38,8 +39,7 @@ public class Main {
 			case BallenBak.GOUD		:	Team.getActief().legBalTerug(BallenBak.GOUD);
 										ConsolePrinter.print("Gouden bal!\nJullie hoeven deze ronde geen ballen meer te pakken\n", Main.STANDARD_WAIT/2);
 										return BallenBak.GOUD;
-			case BallenBak.ROOD		:	ConsolePrinter.print("Rode bal!\nDe beurt gaat naar het andere team!\n", Main.STANDARD_WAIT/2);
-										Team.wissel();
+			case BallenBak.ROOD		:	ConsolePrinter.print("Rode bal!\nDe beurt gaat naar " + Team.wissel().getNaam() + "\n", Main.STANDARD_WAIT/2);
 										return BallenBak.ROOD;
 			default					: 	if (x != BallenBak.VRAAGTEKEN) {
 											ConsolePrinter.print("\nHet is bal " + x + ".\nDeze wordt weggestreept!", 0);
@@ -49,14 +49,11 @@ public class Main {
 											ConsolePrinter.print("\nEn dat is Lingoooo!\nHonderd punten erbij voor " + Team.getActief().getNaam(), 0);
 											Team.getActief().verhoogScore(100);
 											ConsolePrinter.print("We maken voor " + Team.getActief().getNaam() + " een nieuwe kaart aan!\n", 0);
-											Team.getActief().maakKaart();
-											ConsolePrinter.print(Team.getActief().getKaart() + "\n", Main.STANDARD_WAIT);
+											ConsolePrinter.print(Team.getActief().maakKaart() + "\n", Main.STANDARD_WAIT);
 											ConsolePrinter.print("En we strepen 8 getallen weg!\n", 0);
-											Team.getActief().beginKaart(false);
-											ConsolePrinter.print(Team.getActief().getKaart() + "\n", Main.STANDARD_WAIT);
+											ConsolePrinter.print(Team.getActief().beginKaart(false) + "\n", Main.STANDARD_WAIT);
 											Team.getActief().maakBallenBak(false);
-											Team.wissel();
-											ConsolePrinter.print("De beurt gaat naar " + Team.getActief().getNaam(), Main.STANDARD_WAIT);
+											ConsolePrinter.print("De beurt gaat naar " + Team.wissel().getNaam(), Main.STANDARD_WAIT);
 											return 1;
 										} else if (Team.getActief().checkLingo()) {
 											return 1;
@@ -70,10 +67,10 @@ public class Main {
 		}
 	}
 	
-	public static boolean pakBallen(int i) {
-		for (int ballen = 0; ballen < i; ballen++) {
-			ConsolePrinter.print(Team.getActief().getNaam() + ", jullie moeten nog " + (i - ballen) + 
-					(((i - ballen) == 1) ? " bal " : " ballen ") +  "pakken!", Main.STANDARD_WAIT/2);
+	public static boolean pakBallen(int aantalBallen) {
+		for (int ballen = 0; ballen < aantalBallen; ballen++) {
+			ConsolePrinter.print(Team.getActief().getNaam() + ", jullie moeten nog " + (aantalBallen - ballen) + 
+					(((aantalBallen - ballen) == 1) ? " bal " : " ballen ") +  "pakken!", Main.STANDARD_WAIT/2);
 			if (!Main.finale) {
 				ConsolePrinter.print("*PUBLIEK: \"GROEN! GROEN! GROEN!\"*", 0);
 			}
@@ -95,6 +92,7 @@ public class Main {
 		return false;
 	}
 
+	
 	//functie om in een lambda te gooien die vraagteken afvangt
 	public static int vraagteken() {
 		ConsolePrinter.print("Jullie hebben het vraagteken,\nwelk getal wil je wegstrepen?", 0);
@@ -106,20 +104,19 @@ public class Main {
 		}
 	}
 
+	
+	//functies die het spel runnen
 	public static void finale() {
+		Main.finale = true;
 		ConsolePrinter.print("\nWe gaan de finale spelen met " + Team.getActief().getNaam(), Main.STANDARD_WAIT);
 		ConsolePrinter.print("\nWe maken een kaart!\n", 0);
-		Team.getActief().maakKaart();
-		ConsolePrinter.print(Team.getActief().getKaart() + "\n", Main.STANDARD_WAIT);
+		ConsolePrinter.print(Team.getActief().maakKaart() + "\n", Main.STANDARD_WAIT);
 		Team.getActief().maakBallenBak(true);
 		ConsolePrinter.print("En we strepen ditmaal 16 getallen weg!\n", 0);
-		Team.getActief().beginKaart(true);
-		ConsolePrinter.print(Team.getActief().getKaart() + "\n", Main.STANDARD_WAIT);
-		
-		Main.finale = true;
+		ConsolePrinter.print(Team.getActief().beginKaart(true) + "\n", Main.STANDARD_WAIT);
+				
 		String[] s = InputOutput.highscore();
-		
-		
+				
 		for (int ronde = 0; ronde < 5; ronde++) {
 			String goedeWoord = woordenLijst.remove(0);
 			woord = new RaadWoorden(goedeWoord);
@@ -190,14 +187,12 @@ public class Main {
 		Team.startTeams(team1naam, team2naam);
 		Main.finale = false;
 		
-		for (Team t : Team.getTeams()) {
-			ConsolePrinter.print("We maken voor " + t.getNaam() + " een kaart aan!\n", 0);
-			t.maakKaart();
-			ConsolePrinter.print(t.getKaart() + "\n", Main.STANDARD_WAIT);
+		String teamInfo[] = Team.maakKaarten();
+		for (int i = 0; i < 2; i++) {
+			ConsolePrinter.print("We maken voor " + teamInfo[3*i] + " een kaart aan!\n", 0);
+			ConsolePrinter.print(teamInfo[3*i + 1] + "\n", Main.STANDARD_WAIT);
 			ConsolePrinter.print("En we strepen 8 getallen weg!\n", 0);
-			t.beginKaart(false);
-			ConsolePrinter.print(t.getKaart() + "\n", Main.STANDARD_WAIT);
-			t.maakBallenBak(false);
+			ConsolePrinter.print(teamInfo[3*i + 2] + "\n", Main.STANDARD_WAIT);
 		}
 	}
 }
